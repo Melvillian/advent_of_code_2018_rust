@@ -1,5 +1,6 @@
 mod aoc;
 mod day_1;
+mod util;
 
 fn main() {
     crate::day_1::aoc_1_1_improved();
