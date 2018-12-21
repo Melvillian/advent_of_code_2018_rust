@@ -1,6 +1,5 @@
-use std::fs;
 use std::collections::HashSet;
-use crate::util::{get_input_as_vec, get_input_file_as_string};
+use super::util::{get_input_as_vec, get_input_file_as_string};
 
 pub fn aoc_1_1_improved() {
     let frequencies = get_input_file_as_string("aoc_1_input.txt");

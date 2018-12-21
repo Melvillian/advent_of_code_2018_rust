@@ -1,54 +1,5 @@
-use std::fs;
-use std::collections::HashSet;
+use super::util::get_input_file_as_string;
 use std::collections::HashMap;
-
-#[allow(dead_code)]
-/// Sums the numeric values on each line in the input
-pub fn aoc_1_1() {
-    let frequencies = get_input_file_as_string("aoc_1_input.txt");
-
-    let mut sum : i32 = 0;
-    for line in frequencies.lines() {
-        let (sign, num) = line.split_at(1);
-        let num : i32 = num.parse().unwrap();
-        match sign {
-            "+" => sum+= num,
-            "-" => sum-= num,
-            _ => panic!("unknown symbol {}", sign),
-        }
-    }
-
-    println!("aoc_1_1: {}", sum);
-}
-
-#[allow(dead_code)]
-/// looks for duplicate frequencies in the input list
-pub fn aoc_1_2() {
-    let mut map = HashSet::new();
-    let frequencies = get_input_file_as_string("aoc_1_input.txt");
-
-    let mut sum : i32 = 0;
-
-    'outer: loop {
-        'inner: for line in frequencies.lines() {
-            let is_duplicate = map.insert(sum);
-
-            if !is_duplicate {
-                break 'outer;
-            }
-
-            let (sign, num) = line.split_at(1);
-            let num : i32 = num.parse().unwrap();
-            match sign {
-                "+" => sum+= num,
-                "-" => sum-= num,
-                _ => panic!("unknown symbol {}", sign),
-            }
-        }
-    }
-
-    println!("aoc_1_2: {}", sum);
-}
 
 /* For example, if you see the following box IDs:
 
@@ -101,31 +52,4 @@ pub fn aoc_2_1() {
 
     let checksum = exactly_2_num * exactly_3_num;
     println!("aoc_2_1: checksum: {}, exactly 2: {}, exactly 3: {}", checksum, exactly_2_num, exactly_3_num);
-}
-
-pub fn aoc_2_2() {
-
-}
-
-pub fn aoc_4() {
-
-}
-
-pub fn aoc_5() {
-
-}
-
-pub fn aoc_6() {
-
-}
-
-fn get_input_file_as_string(filename: &str) -> String {
-    fs::read_to_string(filename).unwrap()
-}
-
-fn get_input_as_vec(freqs: String) -> Vec<i32> {
-    freqs
-        .lines()
-        .map(|line| line.parse::<i32>().unwrap())
-        .collect::<Vec<i32>>()
 }
