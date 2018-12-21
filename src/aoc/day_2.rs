@@ -1,5 +1,6 @@
 use super::util::get_input_file_as_string;
 use std::collections::HashMap;
+use std::collections::HashSet;
 
 /* For example, if you see the following box IDs:
 
@@ -17,36 +18,20 @@ pub fn aoc_2_1() {
     let mut exactly_3_num : u32 = 0;
 
     for bar_code in box_ids.lines() {
-
-        let mut map = HashMap::new();
-
-        for letter in bar_code.split("") {
-            if letter == "" {
-                // `.split` puts a "" at the beginning and end, so we want to skip that
-                continue;
-            }
-            let count = map.get(letter);
-
-            match count {
-                Some(count) => map.insert(letter, count + 1),
-                None => map.insert(letter, 1),
-            };
+        // create a map of chars to their number of ocurrences within a bar code
+        let mut counts = HashMap::new();
+        for letter in bar_code.chars() {
+            let counter = counts.entry(letter).or_insert(0);
+            *counter+= 1;
         }
 
-        let mut three_seen = false;
-        let mut two_seen = false;
-        for (_, val) in map.iter() {
-            if !three_seen && val == &3 {
-                three_seen = true;
-                exactly_3_num+= 1;
-            }
-            if !two_seen && val == &2 {
-                two_seen = true;
-                exactly_2_num+= 1;
-            }
-            if two_seen && three_seen {
-                break;
-            }
+        // check for occurrences of exactly 2 or 3
+        let counts = counts.values().collect::<HashSet<_>>();
+        if counts.contains(&2) {
+            exactly_2_num+= 1;
+        }
+        if counts.contains(&3) {
+            exactly_3_num+= 1;
         }
     }
 
