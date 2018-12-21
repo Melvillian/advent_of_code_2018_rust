@@ -2,6 +2,7 @@ use std::fs;
 use std::collections::HashSet;
 use std::collections::HashMap;
 
+#[allow(dead_code)]
 /// Sums the numeric values on each line in the input
 pub fn aoc_1_1() {
     let frequencies = get_input_file_as_string("aoc_1_input.txt");
@@ -20,10 +21,10 @@ pub fn aoc_1_1() {
     println!("aoc_1_1: {}", sum);
 }
 
+#[allow(dead_code)]
 /// looks for duplicate frequencies in the input list
 pub fn aoc_1_2() {
     let mut map = HashSet::new();
-
     let frequencies = get_input_file_as_string("aoc_1_input.txt");
 
     let mut sum : i32 = 0;
@@ -120,4 +121,11 @@ pub fn aoc_6() {
 
 fn get_input_file_as_string(filename: &str) -> String {
     fs::read_to_string(filename).unwrap()
+}
+
+fn get_input_as_vec(freqs: String) -> Vec<i32> {
+    freqs
+        .lines()
+        .map(|line| line.parse::<i32>().unwrap())
+        .collect::<Vec<i32>>()
 }

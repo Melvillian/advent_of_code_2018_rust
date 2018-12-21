@@ -1,8 +1,9 @@
 mod aoc;
+mod day_1;
 
 fn main() {
-    crate::aoc::aoc_1_1();
-    crate::aoc::aoc_1_2();
+    crate::day_1::aoc_1_1_improved();
+    crate::day_1::aoc_1_2_improved();
     crate::aoc::aoc_2_1();
     crate::aoc::aoc_2_2();
     crate::aoc::aoc_4();
