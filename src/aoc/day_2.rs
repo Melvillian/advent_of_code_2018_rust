@@ -49,32 +49,20 @@ pub fn aoc_2_2() {
 }
 
 fn aoc_2_2_internal(box_ids: &str) -> String {
-    let mut prototype_fabric_id = "";
-    let mut box_id_1_index = 0;
-    let mut box_id_2_index = 0;
+    let mut prototype_fabric_id = "".to_string();
     'outer: for (i, line) in box_ids.lines().enumerate() {
-        for (j, box_id) in box_ids.lines().enumerate().skip(i) {
-            let exactly_1_char_difference = check_for_exactly_1_difference(box_id, line);
-
-            if exactly_1_char_difference {
-                prototype_fabric_id = box_id;
-                box_id_1_index = i;
-                box_id_2_index = j;
+        for box_id in box_ids.lines().skip(i) {
+            if check_for_exactly_1_difference(box_id, line) {
+                let (lhs, rhs) = split_str_at_difference(&box_id, &line);
+                prototype_fabric_id = lhs + &rhs;
                 break 'outer;
             }
         }
     }
-    if prototype_fabric_id.is_empty(){
-        panic!("no line is has exactly 1 difference!");
+    if prototype_fabric_id.is_empty() {
+        panic!("no match found!");
     }
-
-    println!("{:?}", (prototype_fabric_id, box_id_1_index, box_id_2_index));
-
-    let first_matching_box_id = box_ids.lines().nth(box_id_1_index).unwrap();
-    let second_matching_box_id = box_ids.lines().nth(box_id_2_index).unwrap();
-    let (lhs, rhs) = split_str_at_difference(first_matching_box_id, second_matching_box_id);
-
-    lhs + &rhs
+    prototype_fabric_id.to_string()
 }
 
 /// given 2 box ids, return true if there is exactly 1 character difference between them, otherwise
@@ -103,7 +91,6 @@ fn split_str_at_difference(str : &str, other_str : &str) -> (String, String) {
     let mut zipped_chars = str.chars().zip(other_str.chars());
     let mismatch_index = zipped_chars.position(|(x, y)| x != y).unwrap();
     let (lhs, rhs) = str.split_at(mismatch_index);
-
 
     (lhs.to_string(), rhs.get(1..rhs.len()).unwrap().to_string())
 }
